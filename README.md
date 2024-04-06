@@ -11,7 +11,7 @@ Once you have Go installed.
 ```bash
 git clone https://github.com/brentoncollins/citect-dbf-joiner.git
 cd citect-dbf-joiner
-go build -o citect-dbf-joiner cmd/citect-dbf-joiner/main.go
+go build -o citect-dbf-joiner.exe cmd/citect-dbf-joiner/main.go
 ```
 
 ## Usage
