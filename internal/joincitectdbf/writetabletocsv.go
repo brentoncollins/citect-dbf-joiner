@@ -10,6 +10,8 @@ import (
 func WriteToCSV(data [][]string, outputFile string, log *logrus.Logger) {
 
 	csvFile, err := os.Create(outputFile)
+	log.WithField("Output File", outputFile).Info("Creating CSV file")
+
 	if err != nil {
 		log.Fatalf("failed creating file: %s", err)
 	}
