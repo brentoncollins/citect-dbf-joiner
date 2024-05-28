@@ -1,13 +1,15 @@
 package joincitectdbf
 
 import (
+	"github.com/sirupsen/logrus"
 	"io/fs"
 	"os"
 	"sort"
 )
 
-// sortedSubdirs returns a list of subdirectories sorted by modification time (newest first).
-func sortedSubdirs(dir string) ([]fs.DirEntry, error) {
+// sortedSubDirs returns a list of subdirectories sorted by modification time (newest first).
+func sortedSubDirs(dir string) ([]fs.DirEntry, error) {
+	logrus.Infof("Searching for subdirectories in %s", dir)
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return nil, err

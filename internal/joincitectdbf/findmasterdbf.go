@@ -7,53 +7,20 @@ import (
 	"path/filepath"
 )
 
-// findMasterDBF searches for a master.dbf file in the given directory.
-// If not found, it checks the latest subdirectories in order ordered on modification time.
-// Reason for searching for the master.dbf file the current folder first, then subdirectories:
-//The user can pass the input directory that contains the master.dbf file in the root directory.
-//.
-//└── User
-//├── folder1
-//│   └── variable.dbf
-//├── folder2
-//│   └── variable.dbf
-//├── folder3
-//│   └── variable.dbf
-//└── master.dbf
-//
-//Or user can pass the folder with the latest compiles, if the utility does not find the master.dbf file in the root directory mentioned above.
-//It will attempt to find it in the latest subdirectory based on modification time.
-//It will only join in the DBF's in the subfolders of the first found master.dbf file.
-//.
-//└── Compiles
-//│
-//├── Compile1------------------------------Date: 01/01/2021
-//│   ├── folder1
-//│   │   └── variable.dbf
-//│   ├── folder2
-//│   │   └── variable.dbf
-//│   ├── folder3
-//│   │   └── variable.dbf
-//│   └── master.dbf
-//│
-//└── Compile2------------------------------Date: 02/01/2021
-//├── folder1
-//│ 	└── variable.dbf
-//├── folder2
-//│ 	└── variable.dbf
-//├── folder3
-//│ 	└── variable.dbf
-//└── master.dbf
-
-func findMasterDBF(dir string, log *logrus.Logger) (string, error) {
+// FindMasterDBF searches for master.dbf in the provided directory or subdirectories.
+func FindMasterDBF(dir string, searchMasterDBF bool, log *logrus.Logger) (string, error) {
 	masterPath := filepath.Join(dir, "master.dbf")
 	if _, err := os.Stat(masterPath); err == nil {
-		// MASTER.DBF found in the current directory.
+		log.Infof("master.dbf found in %s", dir)
 		return masterPath, nil
+	} else if !searchMasterDBF {
+		log.Infof("master.dbf not found in %s", dir)
+		return "", fmt.Errorf("master.dbf not found in %s and searching subdirectory for master.dbf was not set", dir)
 	}
 
 	// Read subdirectories, sort by modification time in descending order.
-	subDirs, err := sortedSubdirs(dir)
+	subDirs, err := sortedSubDirs(dir)
+	log.Infof("Searching for master.dbf in %s", dir)
 	if err != nil {
 		return "", err
 	}
@@ -64,9 +31,10 @@ func findMasterDBF(dir string, log *logrus.Logger) (string, error) {
 		subDirPath := filepath.Join(dir, subDir.Name())
 		masterPath = filepath.Join(subDirPath, "master.dbf")
 		if _, err = os.Stat(masterPath); err == nil {
-			// master.dbf found in a subdirectory.
+			log.Infof("master.dbf found in %s", subDirPath)
 			return masterPath, nil
 		} else {
+			log.Infof("master.dbf not found in %s", subDirPath)
 			log.WithField("Directory", masterPath).Warning("master.dbf not found")
 		}
 	}
