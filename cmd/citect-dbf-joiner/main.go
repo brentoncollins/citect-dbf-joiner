@@ -109,9 +109,6 @@ func main() {
 		var masterDbfPath string
 
 		if *masterDbfDir {
-
-			// Find the master dbf file in the input directory
-		} else if *masterDbfDir {
 			masterDbfPath, err = joincitectdbf.FindMasterDBF(*inputDir, false, logger)
 			if err != nil {
 				logger.WithError(err).Error("Exiting")

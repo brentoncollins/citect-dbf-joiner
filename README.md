@@ -22,10 +22,10 @@ This is a command-line utility that can be used to join DBF files from a Citect 
 
 | Option                                 | Comment                                                                                                                                                                                                | Default               |
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
-| -inputdir                              | The input directory that either contains the master.dbf or multiple compile folders (required)  **(required)**                                                                                         | NA                    |
+| -input-dir                             | The input directory that either contains the master.dbf or multiple compile folders (required)  **(required)**                                                                                         | NA                    |
 | -dbf                                   | Comma seperated list of DBFs you want to join, or single string, each one will have a separate output.   **(required)**                                                                                | variable,digalm,equip |
-| -outputdir                             | The output directory, if multiple dbf files are specified, a separate csv will be created for each                                                                                                     | Current working dir   |
-| -logpath                               | The output log path                                                                                                                                                                                    | Current working dir   |
+| -output-dir                            | The output directory, if multiple dbf files are specified, a separate csv will be created for each                                                                                                     | Current working dir   |
+| -log-path                              | The output log path                                                                                                                                                                                    | Current working dir   |
 | -master-dbf-dir                        | Set this flag to use the master DBF file in the input-dir to determine the folders that contain the DBF files.                                                                                         | False                 |
 | -search-compile-folders-for-master-dbf | Set this flag to find all sub-folders in input-dir, then search each sub-folder by date descending for a master DBF to determine the folders that contain the DBF files DBF files within that folder . | False                 |
 | -project-compile-dir                   | Set this flag to find all sub-folders in input-dir, and get DBFs from each folder.                                                                                                                     | False                 |
@@ -55,7 +55,7 @@ Successfully written to file: C:\\Temp\\equip.csv
 
 Example with all arguments
 ```
-citect-dbf-joiner.exe -input-dir "C:\ProgramData\AVEVA Plant SCADA 2023\User" -outputdir "C:\Temp\" -logpath "C:\Temp\application.log" -dbf "variable" -search-latest-compile-dirs
+citect-dbf-joiner.exe -input-dir "C:\ProgramData\AVEVA Plant SCADA 2023\User" -out-putdir "C:\Temp\" -log-path "C:\Temp\application.log" -dbf "variable" -search-latest-compile-dirs
 
 Output
 Successfully written to file: C:\\Temp\\variable.csv
